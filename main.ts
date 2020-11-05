@@ -1,18 +1,21 @@
-let distance = sonar.ping(
-DigitalPin.P1,
-DigitalPin.P2,
-PingUnit.Centimeters
-)
+let distance = 0
 basic.forever(function () {
-    robotbit.Servo(robotbit.Servos.S1, 90)
-    robotbit.MotorRunDual(
-    robotbit.Motors.M1A,
-    150,
-    robotbit.Motors.M2A,
-    150
-    )
-    if (distance < 10) {
+    if (distance < 10 && distance > 0) {
         robotbit.MotorStopAll()
-        robotbit.Servo(robotbit.Servos.S1, 0)
+    } else {
+        robotbit.MotorRunDual(
+        robotbit.Motors.M1A,
+        255,
+        robotbit.Motors.M2A,
+        255
+        )
     }
+})
+basic.forever(function () {
+    distance = sonar.ping(
+    DigitalPin.P1,
+    DigitalPin.P2,
+    PingUnit.Centimeters
+    )
+    basic.showString("" + (distance))
 })
